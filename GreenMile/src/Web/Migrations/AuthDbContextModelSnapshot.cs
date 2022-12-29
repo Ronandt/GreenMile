@@ -183,7 +183,7 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HouseholdId")
+                    b.Property<int?>("HouseholdId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
@@ -292,9 +292,7 @@ namespace Web.Migrations
                 {
                     b.HasOne("Web.Models.Household", "Household")
                         .WithMany("Users")
-                        .HasForeignKey("HouseholdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HouseholdId");
 
                     b.Navigation("Household");
                 });
