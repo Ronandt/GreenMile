@@ -151,11 +151,21 @@ namespace Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("HouseholdId");
+
+                    b.HasIndex("OwnerId")
+                        .IsUnique();
 
                     b.ToTable("Household");
                 });
@@ -171,6 +181,9 @@ namespace Web.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -288,6 +301,15 @@ namespace Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Web.Models.Household", b =>
+                {
+                    b.HasOne("Web.Models.User", "Owner")
+                        .WithOne("OwnerOf")
+                        .HasForeignKey("Web.Models.Household", "OwnerId");
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("Web.Models.User", b =>
                 {
                     b.HasOne("Web.Models.Household", "Household")
@@ -300,6 +322,11 @@ namespace Web.Migrations
             modelBuilder.Entity("Web.Models.Household", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Web.Models.User", b =>
+                {
+                    b.Navigation("OwnerOf");
                 });
 #pragma warning restore 612, 618
         }
