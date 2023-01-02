@@ -152,7 +152,6 @@ namespace Web.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -180,6 +179,9 @@ namespace Web.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Disabled")
