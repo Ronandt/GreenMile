@@ -202,6 +202,35 @@ namespace Web.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Web.Models.Recipe", b =>
+                {
+                    b.Property<string>("recipeName")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("difficulty")
+                        .HasColumnType("decimal(2,1)");
+
+                    b.Property<int>("duration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ingredientAmount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ingredients")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("reviews")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("recipeName");
+
+                    b.ToTable("Recipes");
+                });
+
             modelBuilder.Entity("Web.Models.User", b =>
                 {
                     b.Property<string>("Id")
