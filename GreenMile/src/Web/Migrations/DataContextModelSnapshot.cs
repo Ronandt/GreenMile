@@ -234,6 +234,11 @@ namespace Web.Migrations
                     b.Property<int?>("HouseholdId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
