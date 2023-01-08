@@ -214,6 +214,9 @@ namespace Web.Migrations
                     b.Property<int>("duration")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("imageFilePath")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ingredientAmount")
                         .IsRequired()
                         .HasColumnType("TEXT");
