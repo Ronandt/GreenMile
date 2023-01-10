@@ -145,6 +145,30 @@ namespace Web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Web.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("FoodItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodItemId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Web.Models.CustomFood", b =>
                 {
                     b.Property<int>("Id")
@@ -159,7 +183,6 @@ namespace Web.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
@@ -202,6 +225,64 @@ namespace Web.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Donations");
+                });
+
+            modelBuilder.Entity("Web.Models.FoodItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("CarbonFootprint")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageFilePath")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.ToTable("FoodItems");
+                });
+
+            modelBuilder.Entity("Web.Models.FoodItemCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FoodItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("FoodItemId");
+
+                    b.ToTable("FoodItemCategories");
                 });
 
             modelBuilder.Entity("Web.Models.Household", b =>
@@ -261,6 +342,38 @@ namespace Web.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Web.Models.Recipe", b =>
+                {
+                    b.Property<string>("recipeName")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("difficulty")
+                        .HasColumnType("decimal(2,1)");
+
+                    b.Property<int>("duration")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("imageFilePath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ingredientAmount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ingredients")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("reviews")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("recipeName");
+
+                    b.ToTable("Recipes");
+                });
+
             modelBuilder.Entity("Web.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -294,7 +407,6 @@ namespace Web.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ImageURL")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -400,6 +512,13 @@ namespace Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Web.Models.Category", b =>
+                {
+                    b.HasOne("Web.Models.FoodItem", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("FoodItemId");
+                });
+
             modelBuilder.Entity("Web.Models.Donation", b =>
                 {
                     b.HasOne("Web.Models.CustomFood", "CustomFood")
@@ -413,6 +532,30 @@ namespace Web.Migrations
                     b.Navigation("CustomFood");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Web.Models.FoodItem", b =>
+                {
+                    b.HasOne("Web.Models.Household", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId");
+
+                    b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Web.Models.FoodItemCategory", b =>
+                {
+                    b.HasOne("Web.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("Web.Models.FoodItem", "FoodItem")
+                        .WithMany()
+                        .HasForeignKey("FoodItemId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("FoodItem");
                 });
 
             modelBuilder.Entity("Web.Models.Household", b =>
@@ -440,6 +583,11 @@ namespace Web.Migrations
                         .HasForeignKey("HouseholdId");
 
                     b.Navigation("Household");
+                });
+
+            modelBuilder.Entity("Web.Models.FoodItem", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Web.Models.Household", b =>
