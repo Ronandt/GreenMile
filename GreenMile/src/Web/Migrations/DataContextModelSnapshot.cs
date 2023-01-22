@@ -285,6 +285,48 @@ namespace Web.Migrations
                     b.ToTable("FoodItemCategories");
                 });
 
+            modelBuilder.Entity("Web.Models.GroceryFoodItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("CarbonFootprint")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExtraNote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("HouseholdId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageFilePath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InBasket")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.ToTable("GroceryFood");
+                });
+
             modelBuilder.Entity("Web.Models.Household", b =>
                 {
                     b.Property<int>("HouseholdId")
@@ -558,6 +600,21 @@ namespace Web.Migrations
                     b.Navigation("FoodItem");
                 });
 
+            modelBuilder.Entity("Web.Models.GroceryFoodItem", b =>
+                {
+                    b.HasOne("Web.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("Web.Models.Household", "Household")
+                        .WithMany("GroceryItems")
+                        .HasForeignKey("HouseholdId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Household");
+                });
+
             modelBuilder.Entity("Web.Models.Household", b =>
                 {
                     b.HasOne("Web.Models.User", "Owner")
@@ -592,6 +649,8 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Web.Models.Household", b =>
                 {
+                    b.Navigation("GroceryItems");
+
                     b.Navigation("Users");
                 });
 
