@@ -179,11 +179,14 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ExpiredDate")
+
+                    
+
+                    b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
-                        .HasMaxLength(50)
+
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -207,6 +210,7 @@ namespace Web.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -214,6 +218,7 @@ namespace Web.Migrations
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
@@ -233,8 +238,10 @@ namespace Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+
                     b.Property<double>("CarbonFootprint")
                         .HasColumnType("REAL");
+
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -249,6 +256,11 @@ namespace Web.Migrations
                     b.Property<string>("ImageFilePath")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+
+                    b.Property<bool>("IsCustom")
+                        .HasColumnType("INTEGER");
+
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -451,6 +463,7 @@ namespace Web.Migrations
                     b.Property<string>("ImageURL")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
+
 
                     b.Property<string>("LastName")
                         .IsRequired()
