@@ -187,6 +187,7 @@ namespace Web.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -204,10 +205,14 @@ namespace Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CustomFoodId")
+                    b.Property<int>("CustomFoodId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Status")
@@ -549,7 +554,9 @@ namespace Web.Migrations
                 {
                     b.HasOne("Web.Models.CustomFood", "CustomFood")
                         .WithMany()
-                        .HasForeignKey("CustomFoodId");
+                        .HasForeignKey("CustomFoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Web.Models.User", "User")
                         .WithMany()
