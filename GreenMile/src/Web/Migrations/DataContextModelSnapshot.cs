@@ -347,6 +347,32 @@ namespace Web.Migrations
                     b.ToTable("Household");
                 });
 
+            modelBuilder.Entity("Web.Models.MessageHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Receiver")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Web.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
