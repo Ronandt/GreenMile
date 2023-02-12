@@ -33,7 +33,6 @@ namespace Web.Pages.Recipes
         public void OnGet(int id)
         {
             User loggedInUser = _userManager.GetUserAsync(User).Result;
-            TempData["sucess"] = "user: " + loggedInUser.FirstName  ;
             currentRecipe = _recipeService.GetRecipeById(id);
             if (currentRecipe == null)
             {
@@ -58,7 +57,14 @@ namespace Web.Pages.Recipes
             {
                 averageRating += ratings.rating;
             }
-            averageRating = (averageRating / allReviews.Count) * 20; //multiply by 20 since we are displaying it as a width percentage (style)
+            if (allReviews.Count == 0)
+            {
+                averageRating = 0;
+            }
+            else
+            {
+                averageRating = (averageRating / allReviews.Count) * 20;
+            } //multiply by 20 since we are displaying it as a width percentage (style)
 
         }
         public IActionResult OnPost()
@@ -91,7 +97,7 @@ namespace Web.Pages.Recipes
                     return RedirectToPage("/Recipes/Details");
                 }
             }
-            TempData["error"] = "ModelState Invalid";
+            TempData["error"] = "Please log in to add a review!";
             return RedirectToPage("/Recipes/Details");
             //return Page();
 
