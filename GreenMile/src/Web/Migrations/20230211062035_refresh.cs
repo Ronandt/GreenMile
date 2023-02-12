@@ -5,7 +5,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Web.Migrations
 {
+<<<<<<<< HEAD:GreenMile/src/Web/Migrations/20230211062035_refresh.cs
     public partial class refresh : Migration
+========
+    public partial class Migrations : Migration
+>>>>>>>> main:GreenMile/src/Web/Migrations/20230130131528_Migrations.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +25,20 @@ namespace Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,8 +325,11 @@ namespace Web.Migrations
                     ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CarbonFootprint = table.Column<double>(type: "REAL", nullable: false),
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    Weight = table.Column<double>(type: "REAL", nullable: false),
                     ImageFilePath = table.Column<string>(type: "TEXT", nullable: false),
-                    IsCustom = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Category = table.Column<string>(type: "TEXT", nullable: false),
+                    IsCustom = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Status = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -321,23 +342,57 @@ namespace Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "GroceryFood",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    ExtraNote = table.Column<string>(type: "TEXT", nullable: true),
+                    InBasket = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HouseholdId = table.Column<int>(type: "INTEGER", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    FoodItemId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CarbonFootprint = table.Column<double>(type: "REAL", nullable: true),
+                    ImageFilePath = table.Column<string>(type: "TEXT", nullable: true),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_GroceryFood", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_FoodItems_FoodItemId",
-                        column: x => x.FoodItemId,
-                        principalTable: "FoodItems",
+                        name: "FK_GroceryFood_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_GroceryFood_Household_HouseholdId",
+                        column: x => x.HouseholdId,
+                        principalTable: "Household",
+                        principalColumn: "HouseholdId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryFoodItem",
+                columns: table => new
+                {
+                    CategoriesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FoodItemsId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryFoodItem", x => new { x.CategoriesId, x.FoodItemsId });
+                    table.ForeignKey(
+                        name: "FK_CategoryFoodItem_Categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryFoodItem_FoodItems_FoodItemsId",
+                        column: x => x.FoodItemsId,
+                        principalTable: "FoodItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -437,9 +492,9 @@ namespace Web.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_FoodItemId",
-                table: "Categories",
-                column: "FoodItemId");
+                name: "IX_CategoryFoodItem_FoodItemsId",
+                table: "CategoryFoodItem",
+                column: "FoodItemsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DonationRequests_DonationId",
@@ -556,6 +611,9 @@ namespace Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoryFoodItem");
+
+            migrationBuilder.DropTable(
                 name: "DonationRequests");
 
             migrationBuilder.DropTable(
@@ -580,13 +638,13 @@ namespace Web.Migrations
                 name: "Donations");
 
             migrationBuilder.DropTable(
+                name: "FoodItems");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "CustomFoods");
-
-            migrationBuilder.DropTable(
-                name: "FoodItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
