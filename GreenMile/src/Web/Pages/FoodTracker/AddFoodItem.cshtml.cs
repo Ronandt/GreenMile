@@ -62,6 +62,7 @@ namespace Web.Pages.FoodTracker
         public async Task OnGetAsync()
         {
             Categories = _foodcategoryService.GetAll();
+            ExpiryDate = DateTime.Now;
             //var user = await _userManager.GetUserAsync(HttpContext.User);
             //var household = ( await _householdService.RetrieveHouseholdDetails(user.HouseholdId ?? -1)).Value;
             //householdName = household.Name;
@@ -125,6 +126,7 @@ namespace Web.Pages.FoodTracker
 
                     _foodcategoryService.AddCategory(newcat);
                     _fooditemService.AddFoodItem(newfood);
+                    TempData["success"] = "Food added successgfully!";
                     return Redirect("/FoodTracker");
                 }
 
